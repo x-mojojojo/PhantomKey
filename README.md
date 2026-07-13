@@ -1,6 +1,6 @@
 # PhantomKey
 
-[![F-Droid](https://img.shields.io/badge/F--Droid-submission%20pending-1976D2?logo=fdroid)](https://f-droid.org)
+[![F-Droid](https://img.shields.io/badge/F--Droid-MR%2342807-1976D2?logo=fdroid)](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/42807)
 
 **A stateless password manager for Android.**
 
