@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Never back up secrets; only non-sensitive preferences and site metadata. -->
+    <exclude domain="sharedpref" path="biometric_vault.xml" />
+</full-backup-content>

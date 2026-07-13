@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PhantomKey</string>
+    <string name="unlock_title">Unlock PhantomKey</string>
+    <string name="setup_title">Welcome to PhantomKey</string>
+    <string name="setup_subtitle">A stateless password manager. Nothing is stored — the same inputs always produce the same outputs.</string>
+    <string name="full_name">Full name</string>
+    <string name="master_password">Master password</string>
+    <string name="confirm_password">Confirm master password</string>
+    <string name="continue_action">Continue</string>
+    <string name="unlock">Unlock</string>
+    <string name="unlock_biometrics">Unlock with biometrics</string>
+    <string name="site_name">Site name</string>
+    <string name="site_hint">e.g. twitter.com</string>
+    <string name="password">Password</string>
+    <string name="login_name">Login name</string>
+    <string name="counter">Counter</string>
+    <string name="password_type">Password type</string>
+    <string name="copy">Copy</string>
+    <string name="copied">Copied — clipboard will clear shortly</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+    <string name="lock">Lock</string>
+    <string name="export_history">Export history</string>
+    <string name="import_history">Import history</string>
+    <string name="session_timeout">Session timeout</string>
+    <string name="clipboard_clear">Clipboard auto-clear (seconds)</string>
+    <string name="enable_biometrics">Enable biometric unlock</string>
+    <string name="clear_history">Clear history</string>
+    <string name="about">About</string>
+    <string name="about_body">PhantomKey is a stateless password manager based on the Master Password algorithm. Passwords are never stored — only regenerated from your master key, full name, site, counter, and type.</string>
+    <string name="empty_history">No sites yet. Type a site name to generate credentials.</string>
+    <string name="type_maximum">Maximum</string>
+    <string name="type_long">Long</string>
+    <string name="type_medium">Medium</string>
+    <string name="type_basic">Basic</string>
+    <string name="type_short">Short</string>
+    <string name="type_pin">PIN</string>
+    <string name="type_name">Name</string>
+    <string name="type_phrase">Phrase</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Key body -->
+    <path
+        android:fillColor="#5CE1E6"
+        android:pathData="M54,30c-9.4,0 -17,7.6 -17,17c0,6.5 3.7,12.1 9.1,14.8L42,72h6l2,-6h4l2,6h6l-4.1,-10.2C63.3,59.1 67,53.5 67,47c0,-9.4 -7.6,-17 -17,-17zM54,40c3.9,0 7,3.1 7,7s-3.1,7 -7,7s-7,-3.1 -7,-7s3.1,-7 7,-7z" />
+    <!-- Phantom accent ring -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#7C5CFF"
+        android:strokeWidth="2.5"
+        android:pathData="M54,22c13.8,0 25,11.2 25,25s-11.2,25 -25,25s-25,-11.2 -25,-25s11.2,-25 25,-25z" />
+</vector>

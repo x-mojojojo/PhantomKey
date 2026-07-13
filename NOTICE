@@ -1,0 +1,39 @@
+PhantomKey
+Copyright (C) 2026 PhantomKey contributors
+
+This product is licensed under the GNU General Public License v3.0 or later.
+See the file LICENSE for the full text.
+
+---------------------------------------------------------------------------
+Algorithm attribution
+---------------------------------------------------------------------------
+
+PhantomKey implements the Master Password algorithm (version 3), originally
+designed and documented by Maarten Billemont (Lyndir). The algorithm uses:
+
+  - scrypt key derivation (N=32768, r=8, p=2, dkLen=64)
+  - HMAC-SHA-256 site seed generation
+  - password type templates (Maximum, Long, Medium, Basic, Short, PIN, Name, Phrase)
+  - namespaces under "com.lyndir.masterpassword" for authentication and login
+
+PhantomKey is an independent Free Software project and is NOT affiliated with,
+endorsed by, or an official product of Maarten Billemont, Lyndir, the Master
+Password project, or the Spectre project.
+
+References:
+  https://en.wikipedia.org/wiki/Master_Password_(algorithm)
+  https://gitlab.com/MasterPassword/MasterPassword
+
+---------------------------------------------------------------------------
+Third-party components (selected)
+---------------------------------------------------------------------------
+
+This application is built with Free / open-source components including, but
+not limited to:
+
+  - AndroidX / Jetpack libraries (Apache License 2.0)
+  - Kotlin standard library and coroutines (Apache License 2.0)
+  - Bouncy Castle (MIT-style license)
+  - kotlinx.serialization (Apache License 2.0)
+
+Consult the dependency graph from Gradle for the complete, versioned list.
