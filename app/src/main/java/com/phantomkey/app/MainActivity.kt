@@ -24,7 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.collectAsState
 import com.phantomkey.app.ui.AppViewModel
 import com.phantomkey.app.ui.screens.GeneratorScreen
 import com.phantomkey.app.ui.screens.SettingsScreen
@@ -188,7 +188,7 @@ private fun PhantomKeyRoot(
     onRequestBiometricEnroll: (password: String) -> Unit,
     onDisableBiometrics: () -> Unit,
 ) {
-    val state by viewModel.ui.collectAsStateWithLifecycle()
+    val state by viewModel.ui.collectAsState()
     var screen by remember { mutableStateOf(RootScreen.Loading) }
     var lastPasswordForBiometrics by remember { mutableStateOf<String?>(null) }
     val scope = rememberCoroutineScope()
