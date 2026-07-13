@@ -23,7 +23,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.runtime.collectAsState
 import com.phantomkey.app.ui.AppViewModel
 import com.phantomkey.app.ui.screens.GeneratorScreen
@@ -44,21 +46,23 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PhantomKeyTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
-                ) {
-                    PhantomKeyRoot(
-                        viewModel = viewModel,
-                        biometricsAvailable = isBiometricAvailable(),
-                        onRequestBiometricUnlock = { showBiometricUnlock() },
-                        onRequestBiometricEnroll = { password ->
-                            pendingBiometricPassword = password
-                            showBiometricEnroll()
-                        },
-                        onDisableBiometrics = { viewModel.disableBiometrics() },
-                    )
+            CompositionLocalProvider(LocalLifecycleOwner provides this@MainActivity) {
+                PhantomKeyTheme {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background,
+                    ) {
+                        PhantomKeyRoot(
+                            viewModel = viewModel,
+                            biometricsAvailable = isBiometricAvailable(),
+                            onRequestBiometricUnlock = { showBiometricUnlock() },
+                            onRequestBiometricEnroll = { password ->
+                                pendingBiometricPassword = password
+                                showBiometricEnroll()
+                            },
+                            onDisableBiometrics = { viewModel.disableBiometrics() },
+                        )
+                    }
                 }
             }
         }
