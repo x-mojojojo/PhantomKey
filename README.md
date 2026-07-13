@@ -32,23 +32,6 @@ Because derivation is pure and deterministic, there is no vault to sync, back up
 - **Site history** — local metadata only (site, counter, type) — never passwords; saved only after you copy a credential
 - **Import / export** — JSON backup of site metadata
 
-## Verification vector
-
-| Input | Value |
-| --- | --- |
-| Full name | `Robert` |
-| Master password | `password123` |
-| Site | `twitter.com` |
-| Type | Maximum |
-| Counter | 1 |
-
-| Output | Value |
-| --- | --- |
-| Maximum password | `S$YknOb*PVY(BfeO4&1^` |
-| Login name | `meqcoloba` |
-
-Unit tests assert these vectors on every CI run.
-
 ## Build
 
 ### Requirements
@@ -65,15 +48,6 @@ Unit tests assert these vectors on every CI run.
 python3 scripts/verify_vectors.py   # no Android SDK required
 ```
 
-### GitHub Actions
-
-Pushing to `main` / `master` runs [.github/workflows/android.yml](.github/workflows/android.yml), which:
-
-1. Verifies algorithm vectors (Python)
-2. Runs unit tests
-3. Assembles the debug APK
-4. Uploads the APK as a workflow artifact
-
 ## Security notes
 
 - Master password is **never** written to disk in plaintext.
@@ -81,23 +55,6 @@ Pushing to `main` / `master` runs [.github/workflows/android.yml](.github/workfl
 - The scrypt-derived master key lives **only in RAM** and is wiped on lock / timeout.
 - Optional biometric unlock encrypts the master password under an Android Keystore AES-GCM key that requires user authentication.
 - Site history stores names, counters, and types — not passwords — and only after you copy a result.
-
-## Algorithm (summary)
-
-```
-salt      = "com.lyndir.masterpassword" || uint32be(len(name)) || name
-masterKey = scrypt(masterPassword, salt, N=32768, r=8, p=2, dkLen=64)
-
-seed      = HMAC-SHA-256(masterKey,
-              ns || uint32be(len(site)) || site || int32be(counter))
-
-password  = applyTemplate(seed, type)
-```
-
-Namespaces:
-
-- Authentication (passwords): `com.lyndir.masterpassword`
-- Identification (logins): `com.lyndir.masterpassword.login`
 
 ## Attribution
 
