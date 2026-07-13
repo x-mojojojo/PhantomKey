@@ -1,5 +1,7 @@
 # PhantomKey
 
+[![F-Droid](https://img.shields.io/badge/F--Droid-submission%20pending-1976D2?logo=fdroid)](https://f-droid.org)
+
 **A stateless password manager for Android.**
 
 Nothing is stored. The same inputs always produce the same outputs.

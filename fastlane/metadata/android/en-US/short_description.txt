@@ -1,0 +1,1 @@
+A stateless password manager — no vault to sync, back up, or breach.

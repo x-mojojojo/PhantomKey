@@ -1,0 +1,24 @@
+PhantomKey is a stateless password manager for Android.
+
+Nothing is stored. The same inputs always produce the same outputs.
+
+PhantomKey is an independent free-software implementation of the Master Password algorithm (v3) originally designed by Maarten Billemont. Your site passwords are deterministically derived from:
+
+1. Your full name (public salt)
+2. Your master password (secret)
+3. The site name (e.g. twitter.com)
+4. A counter (for password rotation)
+5. A password type template (Maximum, Long, Medium, Basic, Short, PIN, Name, Phrase)
+
+Because derivation is pure and deterministic, there is no vault to sync, back up, or breach.
+
+Features:
+- Instant generation: type a site name; password and login name appear with no "Generate" button
+- Password types: Maximum, Long, Medium, Basic, Short, PIN, Name, Phrase
+- Counter: rotate a site password without changing your master key
+- Deterministic login names: unique username per site via the identification namespace
+- Clipboard auto-clear: copied secrets expire after a configurable delay
+- Session timeout: auto-lock after inactivity
+- Biometric unlock: optional fingerprint / face unlock (Android Keystore)
+- Site history: local metadata only (site, counter, type) — never passwords; saved only after you copy a credential
+- Import / export: JSON backup of site metadata
