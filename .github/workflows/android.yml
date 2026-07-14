@@ -11,6 +11,9 @@ jobs:
   build:
     name: Assemble debug APK
     runs-on: ubuntu-latest
+    env:
+      KEYSTORE_PASSWORD: unused
+      KEY_PASSWORD: unused
 
     steps:
       - name: Checkout
@@ -38,9 +41,6 @@ jobs:
         run: ./gradlew testDebugUnitTest --stacktrace
 
       - name: Build debug APK
-        env:
-          KEYSTORE_PASSWORD: unused
-          KEY_PASSWORD: unused
         run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
