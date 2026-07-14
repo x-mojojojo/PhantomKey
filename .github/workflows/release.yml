@@ -1,12 +1,9 @@
 name: Release APK
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Release version (e.g. 1.0.0)'
-        required: true
-        default: '1.0.0'
+  push:
+    tags:
+      - "v*"
 
 jobs:
   release:
@@ -34,12 +31,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Extract version from tag
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
       - name: Verify version matches build.gradle
         run: |
           GRADLE_VER=$(grep 'versionName' app/build.gradle.kts | head -1 | grep -oP '"[0-9.]+"' | tr -d '"')
-          INPUT_VER="${{ github.event.inputs.version }}"
-          if [ "$GRADLE_VER" != "$INPUT_VER" ]; then
-            echo "Mismatch: build.gradle.kts versionName=$GRADLE_VER but input=$INPUT_VER"
+          if [ "$GRADLE_VER" != "$VERSION" ]; then
+            echo "Mismatch: build.gradle.kts versionName=$GRADLE_VER but tag=$VERSION"
             exit 1
           fi
           echo "Version $GRADLE_VER verified"
@@ -92,15 +91,12 @@ jobs:
         if: always()
         run: rm -f phantomkey-release.keystore
 
-      - name: Rename APK
-        run: mv aligned.apk PhantomKey-${{ github.event.inputs.version }}.apk
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ github.event.inputs.version }}
-          name: PhantomKey v${{ github.event.inputs.version }}
-          files: PhantomKey-${{ github.event.inputs.version }}.apk
+          tag_name: v${{ env.VERSION }}
+          name: PhantomKey v${{ env.VERSION }}
+          files: aligned.apk
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
