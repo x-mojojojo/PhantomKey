@@ -18,8 +18,10 @@ Builds:
     subdir: app
     gradle:
       - yes
-    binaries: https://github.com/x-mojojojo/PhantomKey/releases/download/v%v/PhantomKey-%v.apk
-    allowedAPKSigningKeys: 13983e250210353198f59a02b316b56112f203f13f47966396f8be41817f44e8
+
+Binaries: https://github.com/x-mojojojo/PhantomKey/releases/download/v%v/PhantomKey-%v.apk
+AllowedAPKSigningKeys:
+  - 8c4c849b7bc47e3d1a5f552e1970a90889b12aaf625783d70c94e1493151422f
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9.]+$

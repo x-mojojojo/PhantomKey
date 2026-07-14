@@ -20,8 +20,18 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = rootProject.file("phantomkey-release.keystore")
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "phantomkey"
+            keyAlias = System.getenv("KEYSTORE_ALIAS") ?: "phantomkey"
+            keyPassword = System.getenv("KEY_PASSWORD") ?: "phantomkey"
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
