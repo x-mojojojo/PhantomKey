@@ -14,7 +14,7 @@ Repo: https://github.com/x-mojojojo/PhantomKey
 Builds:
   - versionName: 1.0.0
     versionCode: 1
-    commit: 7e39a3b72776998a97d7d1cd18e5b4dd2b37f0ad
+    commit: 3ffac160e402b09c24a40440298237ad63db2e64
     subdir: app
     gradle:
       - yes
