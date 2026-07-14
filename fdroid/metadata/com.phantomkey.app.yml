@@ -16,7 +16,7 @@ Binaries: https://github.com/x-mojojojo/PhantomKey/releases/download/v%v/Phantom
 Builds:
   - versionName: 1.0.0
     versionCode: 1
-    commit: 54b738f83cf3cbc0ba4c3fe18602b0a2dcdbe3bc
+    commit: 35a0b2227e62af45fbeee40e6fb180c684a31efd
     subdir: app
     gradle:
       - yes
