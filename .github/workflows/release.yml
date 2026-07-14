@@ -45,14 +45,44 @@ jobs:
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest --stacktrace
 
-      - name: Build release APK
+      - name: Build unsigned release APK
         env:
-          KEYSTORE_PASSWORD: phantomkey
-          KEY_PASSWORD: phantomkey
+          SOURCE_DATE_EPOCH: 0
         run: ./gradlew assembleRelease --stacktrace
 
-      - name: Rename APK
-        run: mv app/build/outputs/apk/release/app-release.apk PhantomKey-${{ github.event.inputs.version }}.apk
+      - name: Normalize APK (reproducible build)
+        run: |
+          UNSIGNED=app/build/outputs/apk/release/app-release-unsigned.apk
+          # Move to unsigned if Gradle named it with -unsigned suffix
+          for apk in app/build/outputs/apk/release/*.apk; do
+            cp "$apk" unsigned.apk
+          done
+          # Strip timestamps: touch all entries with epoch 0
+          python3 -c "
+          import zipfile, os, io
+          src = 'unsigned.apk'
+          dst = 'normalized.apk'
+          with zipfile.ZipFile(src, 'r') as zin:
+              with zipfile.ZipFile(dst, 'w', zipfile.ZIP_DEFLATED) as zout:
+                  for item in zin.infolist():
+                      buf = zin.read(item.filename)
+                      item.date_time = (1980, 1, 1, 0, 0, 0)
+                      zout.writestr(item, buf)
+          "
+
+      - name: Zipalign
+        run: |
+          $ANDROID_HOME/build-tools/*/zipalign -f -v 4 normalized.apk aligned.apk
+
+      - name: Sign APK
+        run: |
+          $ANDROID_HOME/build-tools/*/apksigner sign \
+            --ks phantomkey-release.keystore \
+            --ks-pass pass:phantomkey \
+            --ks-key-alias phantomkey \
+            --key-pass pass:phantomkey \
+            aligned.apk
+          mv aligned.apk PhantomKey-${{ github.event.inputs.version }}.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
