@@ -24,6 +24,8 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          build-tools: 34.0.0
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -36,13 +38,12 @@ jobs:
 
       - name: Verify version matches build.gradle
         run: |
-          GRADLE_VER=$(grep 'versionName' app/build.gradle.kts | head -1 | grep -oP '"[0-9.]+"' | tr -d '"')
-          GRADLE_CODE=$(grep 'versionCode' app/build.gradle.kts | head -1 | grep -oP '\d+')
-          if [ "$GRADLE_VER" != "$VERSION" ]; then
-            echo "Mismatch: build.gradle.kts versionName=$GRADLE_VER but tag=$VERSION"
+          ./gradlew printVersion -q | while IFS='=' read key val; do eval "$key=$val"; done
+          if [ "$versionName" != "$VERSION" ]; then
+            echo "Mismatch: build.gradle.kts versionName=$versionName but tag=$VERSION"
             exit 1
           fi
-          echo "versionName=$GRADLE_VER versionCode=$GRADLE_CODE verified"
+          echo "versionName=$versionName  versionCode=$versionCode  commit=$GITHUB_SHA"
 
       - name: Decode keystore
         env:

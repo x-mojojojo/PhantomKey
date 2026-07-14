@@ -98,3 +98,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
 }
+
+tasks.register("printVersion") {
+    doLast {
+        println("versionName=${android.defaultConfig.versionName}")
+        println("versionCode=${android.defaultConfig.versionCode}")
+    }
+}
