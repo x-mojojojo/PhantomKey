@@ -14,7 +14,7 @@ Binaries: https://github.com/x-mojojojo/PhantomKey/releases/download/v%v/Phantom
 
 Builds:
   - versionName: 1.0.3
-    versionCode: 4
+    versionCode: 3
     commit: da84b83f492c0e01af82af7918d235f719411bd6
     subdir: app
     gradle:
@@ -25,4 +25,4 @@ AllowedAPKSigningKeys: 8c4c849b7bc47e3d1a5f552e1970a90889b12aaf625783d70c94e1493
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9.]+$
 CurrentVersion: 1.0.3
-CurrentVersionCode: 4
+CurrentVersionCode: 3
