@@ -1,6 +1,5 @@
 Categories:
   - Security
-  - System
 License: GPL-3.0-or-later
 AuthorName: PhantomKey contributors
 SourceCode: https://github.com/x-mojojojo/PhantomKey
@@ -8,30 +7,6 @@ IssueTracker: https://github.com/x-mojojojo/PhantomKey/issues
 Translation: https://github.com/x-mojojojo/PhantomKey
 
 AutoName: PhantomKey
-Description: |
-  PhantomKey is a stateless password manager for Android.
-
-  Nothing is stored. The same inputs always produce the same outputs.
-
-  It is an independent free-software implementation of the Master Password
-  algorithm (v3). Your site passwords are deterministically derived from your
-  full name, master password, site name, a counter, and a password type
-  template.
-
-  Because derivation is pure and deterministic, there is no vault to sync,
-  back up, or breach.
-
-  Features:
-  * Instant generation — type a site name; password and login name appear
-    with no "Generate" button
-  * Password types — Maximum, Long, Medium, Basic, Short, PIN, Name, Phrase
-  * Counter — rotate a site password without changing your master key
-  * Deterministic login names — unique username per site
-  * Clipboard auto-clear — copied secrets expire after a configurable delay
-  * Session timeout — auto-lock after inactivity
-  * Biometric unlock — optional fingerprint / face unlock (Android Keystore)
-  * Site history — local metadata only (never passwords)
-  * Import / export — JSON backup of site metadata
 
 RepoType: git
 Repo: https://github.com/x-mojojojo/PhantomKey
@@ -39,10 +14,12 @@ Repo: https://github.com/x-mojojojo/PhantomKey
 Builds:
   - versionName: 1.0.0
     versionCode: 1
-    commit: v1.0.0
+    commit: 7e39a3b72776998a97d7d1cd18e5b4dd2b37f0ad
     subdir: app
     gradle:
       - yes
+    binaries: https://github.com/x-mojojojo/PhantomKey/releases/download/v%v/PhantomKey-%v.apk
+    allowedAPKSigningKeys: 13983e250210353198f59a02b316b56112f203f13f47966396f8be41817f44e8
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9.]+$
