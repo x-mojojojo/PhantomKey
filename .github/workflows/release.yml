@@ -38,7 +38,7 @@ jobs:
 
       - name: Verify version matches build.gradle
         run: |
-          ./gradlew printVersion -q | while IFS='=' read key val; do eval "$key=$val"; done
+          eval "$(./gradlew printVersion -q)"
           if [ "$versionName" != "$VERSION" ]; then
             echo "Mismatch: build.gradle.kts versionName=$versionName but tag=$VERSION"
             exit 1
