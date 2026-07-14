@@ -23,9 +23,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = rootProject.file("phantomkey-release.keystore")
-            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "phantomkey"
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: error("KEYSTORE_PASSWORD not set")
             keyAlias = System.getenv("KEYSTORE_ALIAS") ?: "phantomkey"
-            keyPassword = System.getenv("KEY_PASSWORD") ?: "phantomkey"
+            keyPassword = System.getenv("KEY_PASSWORD") ?: error("KEY_PASSWORD not set")
         }
     }
 

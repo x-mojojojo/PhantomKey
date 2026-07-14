@@ -46,6 +46,9 @@ jobs:
         run: ./gradlew testDebugUnitTest --stacktrace
 
       - name: Build release APK
+        env:
+          KEYSTORE_PASSWORD: phantomkey
+          KEY_PASSWORD: phantomkey
         run: ./gradlew assembleRelease --stacktrace
 
       - name: Rename APK
