@@ -57,14 +57,24 @@ jobs:
         run: ./gradlew testDebugUnitTest --stacktrace
 
       - name: Build unsigned release APK
-        env:
-          SOURCE_DATE_EPOCH: 0
         run: ./gradlew assembleRelease --stacktrace
+
+      - name: Normalize APK (reproducible build)
+        run: |
+          cp app/build/outputs/apk/release/app-release-unsigned.apk unsigned.apk
+          python3 -c "
+          import zipfile
+          with zipfile.ZipFile('unsigned.apk', 'r') as zin:
+              with zipfile.ZipFile('normalized.apk', 'w', zipfile.ZIP_DEFLATED) as zout:
+                  for item in zin.infolist():
+                      buf = zin.read(item.filename)
+                      item.date_time = (1980, 1, 1, 0, 0, 0)
+                      zout.writestr(item, buf)
+          "
 
       - name: Zipalign
         run: |
-          cp app/build/outputs/apk/release/app-release-unsigned.apk unsigned.apk
-          $ANDROID_HOME/build-tools/34.0.0/zipalign -f -v 4 unsigned.apk aligned.apk
+          $ANDROID_HOME/build-tools/34.0.0/zipalign -f -v 4 normalized.apk aligned.apk
 
       - name: Sign APK
         env:
