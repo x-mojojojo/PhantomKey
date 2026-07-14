@@ -10,7 +10,6 @@ AutoName: PhantomKey
 
 RepoType: git
 Repo: https://github.com/x-mojojojo/PhantomKey
-
 Binaries: https://github.com/x-mojojojo/PhantomKey/releases/download/v%v/PhantomKey-%v.apk
 
 Builds:
