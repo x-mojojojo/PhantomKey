@@ -37,11 +37,12 @@ jobs:
       - name: Verify version matches build.gradle
         run: |
           GRADLE_VER=$(grep 'versionName' app/build.gradle.kts | head -1 | grep -oP '"[0-9.]+"' | tr -d '"')
+          GRADLE_CODE=$(grep 'versionCode' app/build.gradle.kts | head -1 | grep -oP '\d+')
           if [ "$GRADLE_VER" != "$VERSION" ]; then
             echo "Mismatch: build.gradle.kts versionName=$GRADLE_VER but tag=$VERSION"
             exit 1
           fi
-          echo "Version $GRADLE_VER verified"
+          echo "versionName=$GRADLE_VER versionCode=$GRADLE_CODE verified"
 
       - name: Decode keystore
         env:
@@ -72,7 +73,7 @@ jobs:
 
       - name: Zipalign
         run: |
-          $ANDROID_HOME/build-tools/*/zipalign -f -v 4 normalized.apk aligned.apk
+          $ANDROID_HOME/build-tools/34.0.0/zipalign -f -v 4 normalized.apk aligned.apk
 
       - name: Sign APK
         env:
@@ -80,23 +81,31 @@ jobs:
           KEY_PASS: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
-          $ANDROID_HOME/build-tools/*/apksigner sign \
+          $ANDROID_HOME/build-tools/34.0.0/apksigner sign \
             --ks phantomkey-release.keystore \
             --ks-pass env:KS_PASS \
             --ks-key-alias "$KEY_ALIAS" \
             --key-pass env:KEY_PASS \
             aligned.apk
 
+      - name: Print signing certificate fingerprint
+        run: |
+          echo "--- Signing certificate fingerprint ---"
+          $ANDROID_HOME/build-tools/34.0.0/apksigner verify --print-certs aligned.apk
+
       - name: Cleanup keystore
         if: always()
         run: rm -f phantomkey-release.keystore
+
+      - name: Rename APK for release
+        run: mv aligned.apk PhantomKey-${{ env.VERSION }}.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.VERSION }}
           name: PhantomKey v${{ env.VERSION }}
-          files: aligned.apk
+          files: PhantomKey-${{ env.VERSION }}.apk
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
