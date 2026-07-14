@@ -13,9 +13,9 @@ Repo: https://github.com/x-mojojojo/PhantomKey
 Binaries: https://github.com/x-mojojojo/PhantomKey/releases/download/v%v/PhantomKey-%v.apk
 
 Builds:
-  - versionName: 1.0.1
-    versionCode: 2
-    commit: cc5f9ac06a170401d409ba8b3246b5ff49e3871d
+  - versionName: 1.0.2
+    versionCode: 3
+    commit: b0c467e65723ac579e480b6eeb54c4785b739c55
     subdir: app
     gradle:
       - yes
@@ -24,5 +24,5 @@ AllowedAPKSigningKeys: 8c4c849b7bc47e3d1a5f552e1970a90889b12aaf625783d70c94e1493
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9.]+$
-CurrentVersion: 1.0.1
-CurrentVersionCode: 2
+CurrentVersion: 1.0.2
+CurrentVersionCode: 3
