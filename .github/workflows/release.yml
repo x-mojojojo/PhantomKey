@@ -34,6 +34,16 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Verify version matches build.gradle
+        run: |
+          GRADLE_VER=$(grep 'versionName' app/build.gradle.kts | head -1 | grep -oP '"[0-9.]+"' | tr -d '"')
+          INPUT_VER="${{ github.event.inputs.version }}"
+          if [ "$GRADLE_VER" != "$INPUT_VER" ]; then
+            echo "Mismatch: build.gradle.kts versionName=$GRADLE_VER but input=$INPUT_VER"
+            exit 1
+          fi
+          echo "Version $GRADLE_VER verified"
+
       - name: Decode keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
@@ -46,24 +56,15 @@ jobs:
         run: ./gradlew testDebugUnitTest --stacktrace
 
       - name: Build unsigned release APK
-        env:
-          SOURCE_DATE_EPOCH: 0
         run: ./gradlew assembleRelease --stacktrace
 
       - name: Normalize APK (reproducible build)
         run: |
-          UNSIGNED=app/build/outputs/apk/release/app-release-unsigned.apk
-          # Move to unsigned if Gradle named it with -unsigned suffix
-          for apk in app/build/outputs/apk/release/*.apk; do
-            cp "$apk" unsigned.apk
-          done
-          # Strip timestamps: touch all entries with epoch 0
+          cp app/build/outputs/apk/release/app-release-unsigned.apk unsigned.apk
           python3 -c "
-          import zipfile, os, io
-          src = 'unsigned.apk'
-          dst = 'normalized.apk'
-          with zipfile.ZipFile(src, 'r') as zin:
-              with zipfile.ZipFile(dst, 'w', zipfile.ZIP_DEFLATED) as zout:
+          import zipfile
+          with zipfile.ZipFile('unsigned.apk', 'r') as zin:
+              with zipfile.ZipFile('normalized.apk', 'w', zipfile.ZIP_DEFLATED) as zout:
                   for item in zin.infolist():
                       buf = zin.read(item.filename)
                       item.date_time = (1980, 1, 1, 0, 0, 0)
@@ -75,14 +76,24 @@ jobs:
           $ANDROID_HOME/build-tools/*/zipalign -f -v 4 normalized.apk aligned.apk
 
       - name: Sign APK
+        env:
+          KS_PASS: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASS: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
           $ANDROID_HOME/build-tools/*/apksigner sign \
             --ks phantomkey-release.keystore \
-            --ks-pass pass:phantomkey \
-            --ks-key-alias phantomkey \
-            --key-pass pass:phantomkey \
+            --ks-pass env:KS_PASS \
+            --ks-key-alias "$KEY_ALIAS" \
+            --key-pass env:KEY_PASS \
             aligned.apk
-          mv aligned.apk PhantomKey-${{ github.event.inputs.version }}.apk
+
+      - name: Cleanup keystore
+        if: always()
+        run: rm -f phantomkey-release.keystore
+
+      - name: Rename APK
+        run: mv aligned.apk PhantomKey-${{ github.event.inputs.version }}.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
